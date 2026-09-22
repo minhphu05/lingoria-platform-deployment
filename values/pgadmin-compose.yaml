@@ -1,0 +1,44 @@
+name: lingoria
+
+services:
+  pgadmin:
+    image: ${PGADMIN_IMAGE:-dpage/pgadmin4:8}
+    container_name: ${PGADMIN_CONTAINER_NAME:-lingoria-pgadmin}
+    restart: unless-stopped
+    entrypoint:
+      - /bin/sh
+      - -c
+      - |
+        PW_FILE="/var/lib/pgadmin/.admin_password"
+        if [ ! -f "$$PW_FILE" ]; then
+          mkdir -p /var/lib/pgadmin
+          IFS="-" read -r a b c d e < /proc/sys/kernel/random/uuid
+          echo "$${a}$${b}$${c}$${d}" > "$$PW_FILE"
+          chmod 600 "$$PW_FILE"
+        fi
+        export PGADMIN_DEFAULT_PASSWORD=$$(cat "$$PW_FILE")
+        exec /entrypoint.sh
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_ADMIN:-${PGADMIN_DEFAULT_EMAIL:-admin@lingoria.local}}
+    ports:
+      - "${PGADMIN_PORT:-5050}:80"
+    volumes:
+      - ${PGADMIN_VOLUME_NAME:-lingoria_pgadmin_data}:/var/lib/pgadmin
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "${LOG_MAX_SIZE:-10m}"
+        max-file: "${LOG_MAX_FILE:-3}"
+    networks:
+      lingoria_network:
+        aliases:
+          - pgadmin
+
+volumes:
+  lingoria_pgadmin_data:
+    name: ${PGADMIN_VOLUME_NAME:-lingoria_pgadmin_data}
+
+networks:
+  lingoria_network:
+    name: ${COMPOSE_NETWORK:-lingoria_network}
+    external: true

@@ -70,6 +70,7 @@ make deploy-pgadmin
 make deploy-<tool>         # Triển khai bất kỳ tool mới nào có trong values/ và configs/
 
 # Quản lý & Giám sát
+make show-credentials      # Hiển thị bảng mật khẩu admin đã auto-generate của tất cả các tools
 make ps                    # Kiểm tra trạng thái các container đang chạy
 make logs-<tool>           # Xem logs của tool (ví dụ: make logs-postgres)
 make stop-<tool>           # Dừng tool đơn lẻ (ví dụ: make stop-minio)
@@ -79,6 +80,14 @@ make clean-data CONFIRM=YES# Dừng và xoá sạch volumes dữ liệu cục b�
 
 ---
 
-## 5. Thêm Công Cụ Mới
+## 5. Tài Liệu Hướng Dẫn Chi Tiết Trong `docs/`
 
-Xem hướng dẫn chi tiết từng bước (với ví dụ MongoDB) trong [docs/runbook.md](file:///Users/kittnguyen/Documents/Project/Personal/lingoria-platform-deployment/docs/runbook.md).
+- **[docs/command_guideline.md](file:///Users/kittnguyen/Documents/Project/Personal/lingoria-platform-deployment/docs/command_guideline.md)**: Hướng dẫn chi tiết toàn bộ các lệnh Makefile (`make deploy-...`, `make show-credentials`,...) kèm kết quả output thực tế trên terminal.
+- **[docs/new_services_guideline.md](file:///Users/kittnguyen/Documents/Project/Personal/lingoria-platform-deployment/docs/new_services_guideline.md)**: Hướng dẫn 7 bước chuẩn hoá để tích hợp và triển khai một công cụ mới vào hệ thống.
+- **[docs/template.md](file:///Users/kittnguyen/Documents/Project/Personal/lingoria-platform-deployment/docs/template.md)**: Bản mẫu chuẩn (Standard Template) dùng để viết tài liệu cấu hình cho từng tool.
+- **`docs/tools/`**: Thư mục chứa tài liệu cấu hình và hướng dẫn vận hành chi tiết cho từng công cụ:
+  - [PostgreSQL](file:///Users/kittnguyen/Documents/Project/Personal/lingoria-platform-deployment/docs/tools/postgres.md)
+  - [MinIO](file:///Users/kittnguyen/Documents/Project/Personal/lingoria-platform-deployment/docs/tools/minio.md)
+  - [Redis](file:///Users/kittnguyen/Documents/Project/Personal/lingoria-platform-deployment/docs/tools/redis.md)
+  - [Apache Airflow 3](file:///Users/kittnguyen/Documents/Project/Personal/lingoria-platform-deployment/docs/tools/airflow.md)
+  - [pgAdmin 4](file:///Users/kittnguyen/Documents/Project/Personal/lingoria-platform-deployment/docs/tools/pgadmin.md)

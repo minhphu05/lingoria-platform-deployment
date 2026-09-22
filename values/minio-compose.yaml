@@ -1,0 +1,50 @@
+name: lingoria
+
+services:
+  minio:
+    image: ${MINIO_IMAGE:-quay.io/minio/minio:latest}
+    container_name: ${MINIO_CONTAINER_NAME:-lingoria-minio}
+    restart: unless-stopped
+    entrypoint:
+      - /bin/sh
+      - -c
+      - |
+        PW_FILE="/data/.minio_admin_password"
+        if [ ! -f "$$PW_FILE" ]; then
+          mkdir -p /data
+          IFS="-" read -r a b c d e < /proc/sys/kernel/random/uuid
+          echo "$${a}$${b}$${c}$${d}" > "$$PW_FILE"
+          chmod 644 "$$PW_FILE"
+        fi
+        export MINIO_ROOT_PASSWORD=$$(cat "$$PW_FILE")
+        exec minio server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ADMIN:-${MINIO_ROOT_USER:-minioadmin}}
+    ports:
+      - "${MINIO_PORT:-9000}:9000"
+      - "${MINIO_CONSOLE_PORT:-9001}:9001"
+    volumes:
+      - ${MINIO_VOLUME_NAME:-lingoria_minio_data}:/data
+    healthcheck:
+      test: ["CMD-SHELL", "curl --fail http://localhost:9000/minio/health/live || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "${LOG_MAX_SIZE:-10m}"
+        max-file: "${LOG_MAX_FILE:-3}"
+    networks:
+      lingoria_network:
+        aliases:
+          - minio
+
+volumes:
+  lingoria_minio_data:
+    name: ${MINIO_VOLUME_NAME:-lingoria_minio_data}
+
+networks:
+  lingoria_network:
+    name: ${COMPOSE_NETWORK:-lingoria_network}
+    external: true

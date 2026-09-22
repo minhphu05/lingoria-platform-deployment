@@ -1,0 +1,9 @@
+{
+  "image": "dpage/pgadmin4:8",
+  "port": 5050,
+  "container_name": "lingoria-pgadmin",
+  "volume_name": "lingoria_pgadmin_data",
+  "admin": "admin@lingoria.local",
+  "log_max_size": "10m",
+  "log_max_file": "3"
+}
