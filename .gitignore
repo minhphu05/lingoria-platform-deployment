@@ -1,0 +1,8 @@
+.env
+.DS_Store
+logs/
+tmp/
+airflow/logs/
+__pycache__/
+*.py[cod]
+.pytest_cache/

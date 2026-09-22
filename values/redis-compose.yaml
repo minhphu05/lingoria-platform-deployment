@@ -1,0 +1,35 @@
+name: lingoria
+
+services:
+  redis:
+    image: ${REDIS_IMAGE:-redis:7.4-alpine}
+    container_name: ${REDIS_CONTAINER_NAME:-lingoria-redis}
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - ${REDIS_VOLUME_NAME:-lingoria_redis_data}:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "${LOG_MAX_SIZE:-10m}"
+        max-file: "${LOG_MAX_FILE:-3}"
+    networks:
+      lingoria_network:
+        aliases:
+          - redis
+
+volumes:
+  lingoria_redis_data:
+    name: ${REDIS_VOLUME_NAME:-lingoria_redis_data}
+
+networks:
+  lingoria_network:
+    name: ${COMPOSE_NETWORK:-lingoria_network}
+    external: true

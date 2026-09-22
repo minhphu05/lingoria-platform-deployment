@@ -1,0 +1,23 @@
+{
+  "image": "apache/airflow:latest-python3.10",
+  "api_server_port": 8080,
+  "scheduler_health_port": 8974,
+  "admin": "admin",
+  "airflow_uid": 50000,
+  "executor": "LocalExecutor",
+  "fernet_key": "",
+  "simple_auth_users": "admin:admin",
+  "dags_are_paused_at_creation": true,
+  "load_examples": false,
+  "db_host": "postgres",
+  "db_port": 5432,
+  "db_name": "airflow",
+  "db_user": "airflow",
+  "minio_endpoint": "http://minio:9000",
+  "minio_access_key": "minioadmin",
+  "logs_volume_name": "airflow_logs",
+  "auth_volume_name": "airflow_auth_data",
+  "dags_volume_name": "airflow_dags",
+  "log_max_size": "10m",
+  "log_max_file": "3"
+}

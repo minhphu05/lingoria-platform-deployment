@@ -1,0 +1,9 @@
+{
+  "image": "redis:7.4-alpine",
+  "port": 6379,
+  "container_name": "lingoria-redis",
+  "volume_name": "lingoria_redis_data",
+  "admin": "default",
+  "log_max_size": "10m",
+  "log_max_file": "3"
+}

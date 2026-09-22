@@ -1,0 +1,10 @@
+{
+  "image": "quay.io/minio/minio:latest",
+  "port": 9000,
+  "console_port": 9001,
+  "container_name": "lingoria-minio",
+  "volume_name": "lingoria_minio_data",
+  "admin": "minioadmin",
+  "log_max_size": "10m",
+  "log_max_file": "3"
+}

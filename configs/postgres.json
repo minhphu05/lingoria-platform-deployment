@@ -1,0 +1,10 @@
+{
+  "image": "pgvector/pgvector:pg16",
+  "port": 55432,
+  "container_name": "lingoria-postgres",
+  "volume_name": "lingoria_postgres_data",
+  "superuser": "postgres",
+  "default_db": "postgres",
+  "log_max_size": "10m",
+  "log_max_file": "3"
+}
